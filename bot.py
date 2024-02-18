@@ -28,7 +28,7 @@ intents.messages = True
 intents.guilds = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
-CHANNEL_ID = 1208376845427413042
+CHANNEL_ID = 924949376424636437
 
 def connect():
     creds = None
@@ -106,21 +106,21 @@ def extract_rewards(message_content):
     pattern = r'([A-Za-z0-9\s-]+):\s+\+(\d+)'
 
     # Extracting Match Reward Rewards
-    match_rewards = re.search(r'Match Reward:\n(.*?)Judge Reward:', message_content, re.DOTALL)
-    print(match_rewards.group(1))
+    match_rewards = re.search(r'Match Reward:\n(.*?)(?:\n\s*\n|$)', message_content, re.DOTALL)
     if match_rewards:
         match_reward_data = match_rewards.group(1)
-        # Loop through each team
+        match_reward_lines = match_reward_data.split('\n')
         for team in Teams.keys():
-            # Check if the team is present before or after the '\n'
-            if team in match_reward_data.split('\n')[0]:
-                rewards['Match Reward'][team] = int(re.search(r':\s*\+(\d+)\s+each$', match_reward_data.split('\n')[0]).group(1))
-            elif team in match_reward_data.split('\n')[1]:
-                rewards['Match Reward'][team] = int(re.search(r':\s*\+(\d+)\s+each$', match_reward_data.split('\n')[1]).group(1))
+            for line in match_reward_lines:
+                if team in line:
+                    match_reward_value = re.search(r':\s*\+(\d+)', line)
+                    if match_reward_value:
+                        rewards['Match Reward'][team] = int(match_reward_value.group(1))
+                    break
 
 
     # Extracting Judge Reward Rewards
-    judge_rewards = re.search(r'Judge Reward:\s*([\w\s]+)?\s*\n(.*?)Sub Reward:', message_content, re.DOTALL)
+    judge_rewards = re.search(r'Judge Reward:\s*([\w\s]+)?\s*\n(.*?)(?:\n\s*\n|$)', message_content, re.DOTALL)
     if judge_rewards:
         judge_name, judge_data = judge_rewards.groups()
         judge_results = re.findall(pattern, judge_data)
