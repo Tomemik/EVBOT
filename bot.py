@@ -193,7 +193,7 @@ def update_first_empty_cell(sheet_service, team, value, reward_type):
             column_letter = to_column_letter(empty_cell_index + 4)
 
             # Construct the range of the empty cell
-            range_name = f"Testing!{column_letter}{4 + Teams[team]}"
+            range_name = f"Finances!{column_letter}{4 + Teams[team]}"
 
             # Prepare the value to be written to the cell
             formatted_value = f"{value} [{reward_type}]"
@@ -221,7 +221,7 @@ def update_first_empty_cell(sheet_service, team, value, reward_type):
             format_result = (
                 sheet_service.spreadsheets()
                 .batchUpdate(spreadsheetId=SPREADSHEET_ID, body={"requests": [{"repeatCell": {
-                    "range": {"sheetId": 788805189, "startRowIndex": 4 + Teams[team] - 1, "endRowIndex": 4 + Teams[team],
+                    "range": {"sheetId": 179109245, "startRowIndex": 4 + Teams[team] - 1, "endRowIndex": 4 + Teams[team],
                               "startColumnIndex": empty_cell_index + 4, "endColumnIndex": empty_cell_index + 5},
                     "cell": {"userEnteredFormat": cell_format},
                     "fields": "userEnteredFormat.backgroundColor"
