@@ -28,7 +28,8 @@ intents.messages = True
 intents.guilds = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
-CHANNEL_ID = 924949376424636437
+CHANNEL_ID = 927275781552496690
+
 
 def connect():
     creds = None
@@ -143,7 +144,7 @@ def get_school_row(sheet_service, offset):
         sheet = sheet_service.spreadsheets()
         result = (
             sheet.values()
-            .get(spreadsheetId=SPREADSHEET_ID, range="Testing!" + api_range)
+            .get(spreadsheetId=SPREADSHEET_ID, range="Finances!" + api_range)
             .execute()
         )
 
@@ -165,7 +166,7 @@ def get_first_empty(sheet_service, team):
     if creds:
         service = sheet_service
         row_data = get_school_row(service, Teams[team])[0]
-
+        print(row_data)
         if row_data is not None:
             # Iterate through the row data to find the index of the first empty cell
             for i, cell in enumerate(row_data):
